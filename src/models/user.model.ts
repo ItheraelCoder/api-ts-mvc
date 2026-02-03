@@ -11,6 +11,10 @@ export const UserModel = {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   },
+
+  findAll: async (): Promise<User[]> => {
+    return await db.select().from(users);
+  },
   create: async (data: NewUser): Promise<User> => {
     const [newUser] = await db.insert(users).values(data).returning();
     if (!newUser) {

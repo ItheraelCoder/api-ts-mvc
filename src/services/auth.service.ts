@@ -25,6 +25,7 @@ export const AuthService = {
     const { password, ...userWhitoutPassword } = newUser;
     return userWhitoutPassword;
   },
+
   login: async (input: LoginUserInput) => {
     const user = await UserModel.findByEmail(input.email);
     if (!user || !(await argon2.verify(user.password, input.password))) {

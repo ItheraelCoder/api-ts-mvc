@@ -8,6 +8,13 @@
       "when": 1769893900844,
       "tag": "0000_tranquil_true_believers",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1770139444291,
+      "tag": "0001_strong_apocalypse",
+      "breakpoints": true
     }
   ]
 }
