@@ -23,5 +23,3 @@ app.get("/health", (req, res) => {
 });
 
 export default app;
-
-//!quedamos en la parte del chat con gemini que dice pasamos al punto 2
