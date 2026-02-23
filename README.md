@@ -21,46 +21,46 @@ Una API REST robusta y moderna construida con la arquitectura MVC utilizando **T
 
 1. **Clonar el repositorio:**
 
-   `ash
+   ```bash
    git clone <URL_DEL_REPOSITORIO>
    cd api-ts-mvc
-   `
+   ```
 
 2. **Instalar dependencias:**
 
-   `ash
+   ```bash
    bun install
-   `
+   ```
 
 3. **Configurar variables de entorno:**
 
    Copia el archivo de ejemplo y configura tus credenciales.
 
-   `ash
+   ```bash
    cp .env.example .env
-   `
+   ```
 
-   Asegúrate de definir correctamente DATABASE_URL y las claves secretas para JWT en el archivo .env.
+   Asegúrate de definir correctamente `DATABASE_URL` y las claves secretas para JWT en el archivo `.env`.
 
 4. **Migraciones de Base de Datos:**
 
    Sincroniza el esquema de Drizzle con tu base de datos:
 
-   `ash
+   ```bash
    bun x drizzle-kit push
-   `
+   ```
 
 5. **Iniciar el servidor:**
 
-   `ash
+   ```bash
    bun dev
-   `
+   ```
 
-   El servidor estará disponible en http://localhost:3000.
+   El servidor estará disponible en `http://localhost:3000`.
 
 ## 📂 Estructura del Proyecto
 
-`
+```
 api-ts-mvc/
 ├── src/
 │   ├── config/         # Configuración y variables de entorno
@@ -77,42 +77,42 @@ api-ts-mvc/
 │   ├── app.ts          # Configuración de la app Express
 │   └── index.ts        # Entry point del servidor
 └── drizzle/            # Archivos de migración SQL
-`
+```
 
 ## 🔌 Documentación de la API
 
- **Base URL**: \/api\
+**Base URL**: `/api`
 
-### 🔐 Autenticación (\/auth\)
+### 🔐 Autenticación (`/auth`)
 
-| Método | Endpoint    | Descripción              | Body Requerido                                      |
-| :----- | :---------- | :----------------------- | :-------------------------------------------------- |
-| POST   | \/register\ | Registrar nuevo usuario  | \{ "email": "...", "password": "...", "role": "user" }\ |
-| POST   | \/login\    | Iniciar sesión           | \{ "email": "...", "password": "..." }\           |
+| Método | Endpoint    | Descripción             | Body Requerido                                          |
+| :----- | :---------- | :---------------------- | :------------------------------------------------------ |
+| POST   | `/register` | Registrar nuevo usuario | `{ "email": "...", "password": "...", "role": "user" }` |
+| POST   | `/login`    | Iniciar sesión          | `{ "email": "...", "password": "..." }`                 |
 
-> **Nota:** El login retorna un token que debe enviarse en el header \Authorization: Bearer <token>\.
+> **Nota:** El login retorna un token que debe enviarse en el header `Authorization: Bearer <token>`.
 
-### 👤 Usuarios (\/users\)
+### 👤 Usuarios (`/users`)
 
-| Método | Endpoint | Descripción                   | Permisos      |
-| :----- | :------- | :---------------------------- | :------------ |
-| GET    | \/me\    | Obtener perfil actual         | Autenticado   |
-| GET    | \/\      | Listar todos los usuarios     | Admin         |
+| Método | Endpoint | Descripción               | Permisos    |
+| :----- | :------- | :------------------------ | :---------- |
+| GET    | `/me`    | Obtener perfil actual     | Autenticado |
+| GET    | `/`      | Listar todos los usuarios | Admin       |
 
-### 📝 Tareas (\/task\)
+### 📝 Tareas (`/task`)
 
-| Método | Endpoint   | Descripción             | Body Requerido                               |
-| :----- | :--------- | :---------------------- | :------------------------------------------- |
-| POST   | \/create\  | Crear nueva tarea       | \{ "title": "...", "description": "..." }\ |
-| GET    | \/getall\  | Obtener todas las tareas| Autenticado                                  |
+| Método | Endpoint  | Descripción              | Body Requerido                             |
+| :----- | :-------- | :----------------------- | :----------------------------------------- |
+| POST   | `/create` | Crear nueva tarea        | `{ "title": "...", "description": "..." }` |
+| GET    | `/getall` | Obtener todas las tareas | Autenticado                                |
 
 ### 🩺 Sistema
 
-- **GET** \/health\: Verificar estado del servicio.
+- **GET** `/health`: Verificar estado del servicio.
 
 ## 📜 Scripts Disponibles
 
-- \un dev\: Inicia el servidor en modo desarrollo con recarga automática.
-- \un x drizzle-kit push\: Aplica cambios del esquema a la base de datos.
-- \un x drizzle-kit generate\: Genera archivos SQL de migración basados en el esquema.
-- \un x drizzle-kit studio\: Abre Drizzle Studio para visualizar la base de datos.
+- `bun dev`: Inicia el servidor en modo desarrollo con recarga automática.
+- `bun x drizzle-kit push`: Aplica cambios del esquema a la base de datos.
+- `bun x drizzle-kit generate`: Genera archivos SQL de migración basados en el esquema.
+- `bun x drizzle-kit studio`: Abre Drizzle Studio para visualizar la base de datos.
