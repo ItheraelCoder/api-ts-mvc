@@ -1,76 +1,118 @@
-# api-ts-mvc
+﻿# 🚀 API TS MVC
 
-API REST en TypeScript con arquitectura MVC, autenticacion JWT, validacion con Zod y persistencia en PostgreSQL usando Drizzle ORM.
+Una API REST robusta y moderna construida con la arquitectura MVC utilizando **TypeScript**, **Express**, **Drizzle ORM** y **PostgreSQL**. Este proyecto incluye autenticación segura, gestión de tareas y control de acceso basado en roles (RBAC).
 
-## Stack
+## 🛠️ Stack Tecnológico
 
-- Bun + TypeScript
-- Express 5
-- PostgreSQL + Drizzle ORM
-- JWT (access token)
-- Zod (validacion)
+- **Runtime:** [Bun](https://bun.sh/) (Compatible con Node.js)
+- **Framework:** Express.js v5
+- **Base de Datos:** PostgreSQL
+- **ORM:** Drizzle ORM
+- **Validación:** Zod
+- **Autenticación:** JWT + Argon2
+- **Logging:** Morgan
 
-## Requisitos
+## 📋 Prerrequisitos
 
-- Bun v1.2.x
-- PostgreSQL
+- [Bun](https://bun.sh/) v1.0+ instalado.
+- Servidor PostgreSQL en ejecución.
 
-## Configuracion
+## ⚙️ Instalación y Configuración
 
-1. Instala dependencias:
+1. **Clonar el repositorio:**
 
-```bash
-bun install
-```
+   `ash
+   git clone <URL_DEL_REPOSITORIO>
+   cd api-ts-mvc
+   `
 
-2. Crea un archivo `.env` en la raiz con estas variables:
+2. **Instalar dependencias:**
 
-```bash
-PORT=3000
-DATABASE_URL=postgres://user:password@localhost:5432/dbname
-JWT_SECRET=pon_un_secreto_de_minimo_32_caracteres
-JWT_EXPIRES_IN=1d
-JWT_REFRESH_SECRET=otro_secreto_de_minimo_32_caracteres
-JWT_REFRESH_EXPIRES_IN=7d
-NODE_ENV=development
-```
+   `ash
+   bun install
+   `
 
-3. Ejecuta en desarrollo:
+3. **Configurar variables de entorno:**
 
-```bash
-bun run dev
-```
+   Copia el archivo de ejemplo y configura tus credenciales.
 
-El servidor queda en `http://localhost:3000`.
+   `ash
+   cp .env.example .env
+   `
 
-## Rutas
+   Asegúrate de definir correctamente DATABASE_URL y las claves secretas para JWT en el archivo .env.
 
-Base URL: `/api`
+4. **Migraciones de Base de Datos:**
 
-### Auth
+   Sincroniza el esquema de Drizzle con tu base de datos:
 
-- `POST /auth/register`
-	- Body: `{ "email": string, "password": string, "role"?: "admin" | "user" }`
-- `POST /auth/login`
-	- Body: `{ "email": string, "password": string }`
-	- Respuesta: `{ "token": string, "user": { "id", "email", "role" } }`
+   `ash
+   bun x drizzle-kit push
+   `
 
-### Users (requiere Bearer token)
+5. **Iniciar el servidor:**
 
-- `GET /users/me`
-- `GET /users` (solo `admin`)
+   `ash
+   bun dev
+   `
 
-### Tasks (requiere Bearer token)
+   El servidor estará disponible en http://localhost:3000.
 
-- `POST /task/create`
-	- Body: `{ "title": string, "description"?: string }`
-- `GET /task/getall`
+## 📂 Estructura del Proyecto
 
-### Health
+`
+api-ts-mvc/
+├── src/
+│   ├── config/         # Configuración y variables de entorno
+│   ├── controllers/    # Controladores de rutas (Lógica de negocio)
+│   ├── db/             # Configuración de Drizzle y Esquemas (Schema)
+│   ├── dto/            # Data Transfer Objects
+│   ├── libs/           # Inicialización de librerías (DB, etc.)
+│   ├── middlewares/    # Middlewares (Auth, Error, Validation)
+│   ├── models/         # Modelos (si aplica, o tipos inferidos)
+│   ├── routes/         # Definición de endpoints
+│   ├── services/       # Lógica compleja de negocio
+│   ├── types/          # Definiciones de tipos globales
+│   ├── utils/          # Utilidades y helpers
+│   ├── app.ts          # Configuración de la app Express
+│   └── index.ts        # Entry point del servidor
+└── drizzle/            # Archivos de migración SQL
+`
 
-- `GET /health`
+## 🔌 Documentación de la API
 
-## Notas
+ **Base URL**: \/api\
 
-- El token JWT se envia en el header `Authorization: Bearer <token>`.
-- La base de datos se lee desde `DATABASE_URL`.
+### 🔐 Autenticación (\/auth\)
+
+| Método | Endpoint    | Descripción              | Body Requerido                                      |
+| :----- | :---------- | :----------------------- | :-------------------------------------------------- |
+| POST   | \/register\ | Registrar nuevo usuario  | \{ "email": "...", "password": "...", "role": "user" }\ |
+| POST   | \/login\    | Iniciar sesión           | \{ "email": "...", "password": "..." }\           |
+
+> **Nota:** El login retorna un token que debe enviarse en el header \Authorization: Bearer <token>\.
+
+### 👤 Usuarios (\/users\)
+
+| Método | Endpoint | Descripción                   | Permisos      |
+| :----- | :------- | :---------------------------- | :------------ |
+| GET    | \/me\    | Obtener perfil actual         | Autenticado   |
+| GET    | \/\      | Listar todos los usuarios     | Admin         |
+
+### 📝 Tareas (\/task\)
+
+| Método | Endpoint   | Descripción             | Body Requerido                               |
+| :----- | :--------- | :---------------------- | :------------------------------------------- |
+| POST   | \/create\  | Crear nueva tarea       | \{ "title": "...", "description": "..." }\ |
+| GET    | \/getall\  | Obtener todas las tareas| Autenticado                                  |
+
+### 🩺 Sistema
+
+- **GET** \/health\: Verificar estado del servicio.
+
+## 📜 Scripts Disponibles
+
+- \un dev\: Inicia el servidor en modo desarrollo con recarga automática.
+- \un x drizzle-kit push\: Aplica cambios del esquema a la base de datos.
+- \un x drizzle-kit generate\: Genera archivos SQL de migración basados en el esquema.
+- \un x drizzle-kit studio\: Abre Drizzle Studio para visualizar la base de datos.
